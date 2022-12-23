@@ -857,7 +857,7 @@ type (
 		ReferenceID        string              `json:"reference_id"`
 		Amount             *PurchaseUnitAmount `json:"amount,omitempty"`
 		Payee              *PayeeForOrders     `json:"payee,omitempty"`
-		Payments           *CapturedPayments   `json:"payments,omitempty"`
+		Payments           *Payments           `json:"payments,omitempty"`
 		PaymentInstruction *PaymentInstruction `json:"payment_instruction,omitempty"`
 		Description        string              `json:"description,omitempty"`
 		CustomID           string              `json:"custom_id,omitempty"`
@@ -968,6 +968,11 @@ type (
 		SellerReceivableBreakdown *SellerReceivableBreakdown `json:"seller_receivable_breakdown,omitempty"`
 	}
 
+	Payments struct {
+		Captures       []CaptureAmount   `json:"captures,omitempty"`
+		Authorizations []AuthorizeAmount `json:"authorizations,omitempty"`
+	}
+
 	// CapturedPayments has the amounts for a captured order
 	CapturedPayments struct {
 		Captures []CaptureAmount `json:"captures,omitempty"`
@@ -975,10 +980,10 @@ type (
 
 	// AuthorizedPayments has the amounts for a authorized order
 	AuthorizedPayments struct {
-		Authorizations []AuthorizedAmount `json:"authorizations,omitempty"`
+		Authorizations []AuthorizeAmount `json:"authorizations,omitempty"`
 	}
 
-	AuthorizedAmount struct {
+	AuthorizeAmount struct {
 		ID               string              `json:"id,omitempty"`
 		Status           string              `json:"status,omitempty"`
 		Amount           *PurchaseUnitAmount `json:"amount,omitempty"`
