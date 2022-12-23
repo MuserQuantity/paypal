@@ -485,13 +485,13 @@ type (
 
 	// AuthorizeOrderResponse .
 	AuthorizeOrderResponse struct {
-		CreateTime    *time.Time             `json:"create_time,omitempty"`
-		UpdateTime    *time.Time             `json:"update_time,omitempty"`
-		ID            string                 `json:"id,omitempty"`
-		Status        string                 `json:"status,omitempty"`
-		Intent        string                 `json:"intent,omitempty"`
-		PurchaseUnits []PurchaseUnitRequest  `json:"purchase_units,omitempty"`
-		Payer         *PayerWithNameAndPhone `json:"payer,omitempty"`
+		CreateTime    *time.Time               `json:"create_time,omitempty"`
+		UpdateTime    *time.Time               `json:"update_time,omitempty"`
+		ID            string                   `json:"id,omitempty"`
+		Status        string                   `json:"status,omitempty"`
+		Intent        string                   `json:"intent,omitempty"`
+		PurchaseUnits []AuthorizedPurchaseUnit `json:"purchase_units,omitempty"`
+		Payer         *PayerWithNameAndPhone   `json:"payer,omitempty"`
 	}
 
 	// AuthorizeOrderRequest - https://developer.paypal.com/docs/api/orders/v2/#orders_authorize
@@ -971,6 +971,33 @@ type (
 	// CapturedPayments has the amounts for a captured order
 	CapturedPayments struct {
 		Captures []CaptureAmount `json:"captures,omitempty"`
+	}
+
+	// AuthorizedPayments has the amounts for a authorized order
+	AuthorizedPayments struct {
+		Authorizations []AuthorizedAmount `json:"authorizations,omitempty"`
+	}
+
+	AuthorizedAmount struct {
+		ID               string              `json:"id,omitempty"`
+		Status           string              `json:"status,omitempty"`
+		Amount           *PurchaseUnitAmount `json:"amount,omitempty"`
+		SellerProtection *SellerProtection   `json:"seller_protection,omitempty"`
+		CreateTime       *time.Time          `json:"create_time,omitempty"`
+		UpdateTime       *time.Time          `json:"update_time,omitempty"`
+		ExpirationTime   *time.Time          `json:"expiration_time,omitempty"`
+		Links            []Link              `json:"links,omitempty"`
+	}
+
+	AuthorizedPurchaseUnit struct {
+		ReferenceID string                         `json:"reference_id,omitempty"`
+		Shipping    AuthorizedPurchaseUnitShipping `json:"shipping,omitempty"`
+		Payments    AuthorizedPayments             `json:"payments,omitempty"`
+	}
+
+	AuthorizedPurchaseUnitShipping struct {
+		Name    *Name                         `json:"name,omitempty"`
+		Address ShippingDetailAddressPortable `json:"address,omitempty"`
 	}
 
 	// CapturedPurchaseItem are items for a captured order
